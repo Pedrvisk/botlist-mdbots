@@ -7,29 +7,28 @@ interface UserData {
 }
 
 interface AuthState {
-  isAuthenticated: boolean;
-  user: UserData;
+  isUserAuthenticated: boolean;
+  userData: UserData;
 }
 
 const useAuth = defineStore({
   id: 'auth',
   state: (): AuthState => ({
-    isAuthenticated: false,
-    user: {
+    isUserAuthenticated: false,
+    userData: {
       id: '',
       username: '',
       avatarUrl: ''
     }
   }),
   actions: {
-    async login(): Promise<void> {
+    async signIn(): Promise<void> {
       const res = await this.verifyToken();
-      this.isAuthenticated = res;
-      if (!this.isAuthenticated) return;
+      this.isUserAuthenticated = res;
+      if (!this.isUserAuthenticated) return;
       this.fetchUserData();
     },
-
-    async logout(): Promise<void> {
+    async signOut(): Promise<void> {
       try {
         const res = await fetch('/api/auth/logout', {
           method: 'POST'
@@ -37,8 +36,8 @@ const useAuth = defineStore({
 
         if (!res.ok) throw new Error('Failed to logout');
 
-        this.isAuthenticated = false;
-        this.user = {
+        this.isUserAuthenticated = false;
+        this.userData = {
           id: '',
           username: '',
           avatarUrl: ''
@@ -48,7 +47,7 @@ const useAuth = defineStore({
       }
     },
     async fetchUserData(): Promise<void> {
-      if (this.isAuthenticated) {
+      if (this.isUserAuthenticated) {
         try {
           const res = await fetch('/api/me/profile', {
             method: 'GET'
@@ -57,7 +56,7 @@ const useAuth = defineStore({
           if (!res.ok) throw new Error('Failed to fetch User data');
           const userData: UserData = await res.json();
 
-          this.user = userData;
+          this.userData = userData;
         } catch (err) {
           console.error(err);
         }
