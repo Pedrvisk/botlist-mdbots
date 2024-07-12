@@ -1,9 +1,13 @@
 import './assets/global.css';
 import { OhVueIcon, addIcons } from 'oh-vue-icons';
 import { VueMasonryPlugin } from 'vue-masonry';
+
 import Aura from '@primevue/themes/aura';
-import TieredMenu from 'primevue/tieredmenu';
 import PrimeVue from 'primevue/config';
+import Button from 'primevue/button';
+import Avatar from 'primevue/avatar';
+import Image from 'primevue/image';
+import Menu from 'primevue/menu';
 
 import {
   MdDashboardRound,
@@ -13,7 +17,8 @@ import {
   MdMenuRound,
   IoClose,
   MdKeyboardarrowdownRound,
-  MdFibernewOutlined
+  MdFibernewOutlined,
+  MdLogoutOutlined
 } from 'oh-vue-icons/icons';
 
 addIcons(
@@ -24,7 +29,8 @@ addIcons(
   MdKeyboardarrowdownRound,
   MdMenuRound,
   IoClose,
-  MdFibernewOutlined
+  MdFibernewOutlined,
+  MdLogoutOutlined
 );
 
 import { createApp } from 'vue';
@@ -42,9 +48,18 @@ app.use(VueMasonryPlugin);
 
 app.use(PrimeVue, {
   theme: {
-    preset: Aura
+    preset: Aura,
+    options: {
+      cssLayer: {
+        name: 'primevue',
+        order: 'tailwind-base, primevue, tailwind-utilities'
+      }
+    }
   }
 });
-app.component('TieredMenu', TieredMenu);
+app.component('Menu', Menu);
+app.component('Avatar', Avatar);
+app.component('Image', Image);
+app.component('Button', Button);
 
 app.mount('#app');

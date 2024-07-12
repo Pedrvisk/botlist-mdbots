@@ -1,7 +1,7 @@
 <script lang="ts">
 import { toRefs, type PropType } from 'vue';
 
-interface BotData {
+export interface BotData {
   id: string;
   botId: string;
   ownerId: string;

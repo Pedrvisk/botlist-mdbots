@@ -9,7 +9,12 @@ function calculatePopupPosition(width: number, height: number) {
   return { left, top };
 }
 
-function openPopup(url: string, title: string, width: number, height: number): Promise<boolean> {
+function openPopupWindow(
+  url: string,
+  title: string,
+  width: number,
+  height: number
+): Promise<boolean> {
   const { left, top } = calculatePopupPosition(width, height);
   const newWindow = window.open(
     url,
@@ -28,9 +33,9 @@ function openPopup(url: string, title: string, width: number, height: number): P
   });
 }
 
-function Popup(url: string, title: string, width = 500, height = 550): Promise<boolean> {
+function PopupWindow(url: string, title: string, width = 500, height = 550): Promise<boolean> {
   if (typeof window === 'undefined') return Promise.resolve(false);
-  return openPopup(url, title, width, height);
+  return openPopupWindow(url, title, width, height);
 }
 
-export { Popup };
+export { PopupWindow };

@@ -5,7 +5,7 @@ const useTheme = defineStore('theme', () => {
   const itemStorage: string = 'mdbots.lightMode';
   const isLight = ref<boolean>(localStorage.getItem(itemStorage) === 'true');
 
-  const toggle = (): void => {
+  const changeTheme = (): void => {
     isLight.value = !isLight.value;
     localStorage.setItem(itemStorage, isLight.value.toString());
   };
@@ -15,7 +15,7 @@ const useTheme = defineStore('theme', () => {
     else document.documentElement.classList.add('dark');
   });
 
-  return { isLight, toggle };
+  return { isLight, changeTheme };
 });
 
 export { useTheme };
