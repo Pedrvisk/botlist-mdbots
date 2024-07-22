@@ -1,18 +1,16 @@
 <script lang="ts">
+import { type INavbarLink } from '@/router/routerLinks';
 import { toRefs, type PropType } from 'vue';
 import { RouterLink } from 'vue-router';
 
-export interface INavItem {
-  icon: string;
-  label: string;
-  href: string;
-}
-
 export default {
   name: 'NavItem',
+  components: {
+    RouterLink
+  },
   props: {
     data: {
-      type: Object as PropType<INavItem>,
+      type: Object as PropType<INavbarLink>,
       required: true
     },
     isMobile: Boolean

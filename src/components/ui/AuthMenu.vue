@@ -15,6 +15,9 @@ export interface IAuthNavItem {
 
 export default {
   name: 'AuthMenu',
+  components: {
+    RouterLink
+  },
   props: {
     isMobile: Boolean
   },
@@ -104,7 +107,7 @@ export default {
       :popup="true"
     >
       <template #item="{ item, props, hasSubmenu }">
-        <router-link v-if="item.href" v-slot="{ href, navigate }" :to="item.href" custom>
+        <RouterLink v-if="item.href" v-slot="{ href, navigate }" :to="item.href" custom>
           <a :href="href" v-bind="props.action" @click="navigate">
             <div
               class="flex items-center text-white w-full mt-[0.5px] p-2 space-x-2 text-sm hover:bg-black/20 rounded-md"
@@ -113,7 +116,7 @@ export default {
               <span>{{ item.label }}</span>
             </div>
           </a>
-        </router-link>
+        </RouterLink>
         <a
           v-else
           :href="item.url"

@@ -1,7 +1,9 @@
 <script lang="ts">
-import NavItem, { type INavItem } from '@/components/ui/NavItem.vue';
 import AuthMenu from '@/components/ui/AuthMenu.vue';
+import NavItem from '@/components/ui/NavItem.vue';
 import { useAuth } from '@/stores/useAuth';
+import Logo from '@/assets/Logo.vue';
+import Links from '@/router/routerLinks';
 import { storeToRefs } from 'pinia';
 import { ref } from 'vue';
 
@@ -9,44 +11,19 @@ export default {
   name: 'MobileMenu',
   components: {
     AuthMenu,
-    NavItem
+    NavItem,
+    Logo
   },
   setup() {
     const isMobileMenuVisible = ref<boolean>(false);
 
     const authStore = useAuth();
-    const { isUserAuthenticated, userData } = storeToRefs(authStore);
-    const { signIn, signOut } = authStore;
-
-    const navItems: INavItem[] = [
-      {
-        icon: 'md-dashboard-round',
-        label: 'Início',
-        href: '/'
-      },
-      {
-        icon: 'oi-search',
-        label: 'Descobrir',
-        href: '/search'
-      }
-    ];
-
-    const authNavItems: INavItem[] = [
-      {
-        icon: 'md-dashboard-round',
-        label: 'Perfil',
-        href: '/'
-      },
-      {
-        icon: 'oi-search',
-        label: 'Meus Bots',
-        href: '/search'
-      }
-    ];
+    const { isUserAuthenticated } = storeToRefs(authStore);
+    const { signOut } = authStore;
 
     return {
-      navItems,
-      authNavItems,
+      navItems: Links.Navbar,
+      authNavItems: Links.Auth,
       isMobileMenuVisible,
       isUserAuthenticated,
       signOut
@@ -70,9 +47,10 @@ export default {
     leave-active-class="duration-200 ease-in"
     leave-from-class="opacity-100"
     leave-to-class="transform opacity-0"
-    class="bg-[#191919] h-full w-full flex flex-col z-[500] fixed top-0 left-0 bottom-0 right-0"
   >
-    <div>
+    <div
+      class="bg-[#191919] h-screen w-screen flex flex-col z-[500] fixed top-0 left-0 bottom-0 right-0"
+    >
       <div
         class="bg-white dark:bg-[#141414] border-b-[0.5px] border-b-black/20 dark:border-b-white/5 !py-0 !h-12 w-full flex items-center justify-between"
       >
@@ -85,8 +63,8 @@ export default {
           <v-icon name="io-close" class="w-8 h-8 text-red-500" />
         </button>
       </div>
-      <div class="bg-[#F7F4F3] dark:bg-[#191919] grow py-2 px-4 overflow-auto">
-        <div class="mb-4 !space-y-2">
+      <div class="bg-[#F7F4F3] dark:bg-[#191919] flex flex-col grow py-2 px-4 overflow-y-auto">
+        <div class="mb-2 !space-y-2">
           <NavItem
             v-for="navItem in navItems"
             :data="navItem"
@@ -94,14 +72,13 @@ export default {
             @click="isMobileMenuVisible = false"
           />
         </div>
-        <div class="w-full flex items-center gap-2">
-          <span
-            class="text-xs text-gray-300 font-black uppercase text-ellipsis tracking-widest whitespace-nowrap"
+        <div class="w-full flex items-center">
+          <span class="text-xs font-black uppercase text-ellipsis tracking-widest whitespace-nowrap"
             >Painel de Controle</span
           >
           <div class="w-full bg-black/20 dark:bg-white/5 h-0.5 rounded-full" />
         </div>
-        <div v-if="isUserAuthenticated" class="my-4 !space-y-2">
+        <div v-if="isUserAuthenticated" class="mt-4 mb-2 !space-y-2">
           <NavItem
             v-for="authNavItem in authNavItems"
             :data="authNavItem"
@@ -116,6 +93,23 @@ export default {
             <span>Deslogar</span>
           </button>
         </div>
+        <div
+          v-else
+          class="mt-4 mb-2 rounded-sm text-center bg-black/20 grow flex items-center justify-center"
+        >
+          <h3 class="px-7 font-medium dark:text-white/90 text-ellipsis text-pretty text-sm">
+            Entre com o Discord para ter acesso ao Painel de Controle!
+          </h3>
+        </div>
+      </div>
+      <div
+        class="bg-white dark:bg-[#141414] border-t-[0.5px] border-t-black/20 dark:border-t-white/5 px-4 py-3 w-full flex items-center justify-center text-xs"
+      >
+        <span
+          class="drop-shadow-[0px_0px_1px_black] dark:drop-shadow-[0px_0px_1px_white] font-bold text-ellipsis uppercase tracking-wider"
+        >
+          MD Community
+        </span>
       </div>
     </div>
   </Transition>

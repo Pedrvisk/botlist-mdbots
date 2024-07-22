@@ -1,14 +1,16 @@
 <script lang="ts">
-import NavItem, { type INavItem } from '@/components/ui/NavItem.vue';
 import ThemeSwitch from '@/components/ThemeSwitch.vue';
 import MobileMenu from '@/components/ui/MobileMenu.vue';
 import AuthMenu from '@/components/ui/AuthMenu.vue';
+import NavItem from '@/components/ui/NavItem.vue';
+import Links from '@/router/routerLinks';
 import { RouterLink } from 'vue-router';
 import Logo from '@/assets/Logo.vue';
 
 export default {
   name: 'Header',
   components: {
+    RouterLink,
     Logo,
     ThemeSwitch,
     MobileMenu,
@@ -16,21 +18,8 @@ export default {
     NavItem
   },
   setup() {
-    const navItems: INavItem[] = [
-      {
-        icon: 'md-dashboard-round',
-        label: 'Início',
-        href: '/'
-      },
-      {
-        icon: 'oi-search',
-        label: 'Descobrir',
-        href: '/search'
-      }
-    ];
-
     return {
-      navItems
+      navItems: Links.Navbar
     };
   }
 };
@@ -50,11 +39,11 @@ export default {
         <ThemeSwitch />
       </div>
       <div class="h-full flex items-center justify-end">
-        <div class="flex md:hidden items-center h-full justify-end">
+        <div class="block md:hidden h-full">
           <MobileMenu />
         </div>
-        <div class="hidden md:flex items-center h-full w-full justify-end">
-          <NavItem v-for="navItem in navItems" :data="navItem" />
+        <div class="hidden md:flex h-full w-full">
+          <NavItem v-for="navItem in navItems" :key="navItem.href" :data="navItem" />
           <AuthMenu />
         </div>
       </div>
