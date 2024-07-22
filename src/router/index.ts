@@ -38,9 +38,9 @@ const routes: Array<RouteRecordRaw> = [
 ];
 
 const router = createRouter({
-  history: createWebHistory(),
   routes,
-  scrollBehavior(to, from, savedPosition) {
+  history: createWebHistory(),
+  scrollBehavior() {
     return { left: 0, top: 0, behavior: 'smooth' };
   }
 });
