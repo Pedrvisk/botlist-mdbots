@@ -1,78 +1,20 @@
 <script lang="ts">
+import FooterItem from '@/components/ui/FooterItem.vue';
+import Links from '@/router/routerLinks';
 import { RouterLink } from 'vue-router';
-
-interface FooterSocialLink {
-  icon: string;
-  href: string;
-}
-
-interface FooterLink {
-  label: string;
-  name?: string;
-  href: string;
-  isExternal?: boolean;
-}
 
 export default {
   name: 'Footer',
+  components: {
+    RouterLink,
+    FooterItem
+  },
   setup() {
-    const footerSocialLinks: FooterSocialLink[] = [
-      {
-        icon: 'fa-discord',
-        href: 'https://discord.com/invite/hFmHrpC8Sc'
-      },
-      {
-        icon: 'fa-github-alt',
-        href: 'https://github.com/MD-Community'
-      }
-    ];
-
-    const footerLinksMenu: FooterLink[] = [
-      {
-        label: 'Início',
-        href: '/'
-      },
-      {
-        label: 'Descobrir',
-        href: '/search'
-      }
-    ];
-
-    const footerLinksDev: FooterLink[] = [
-      {
-        label: 'Adicionar Bot',
-        href: '/bots/add'
-      },
-      {
-        label: 'Documentação',
-        href: '/docs'
-      }
-    ];
-
-    const footerLinksCompany: FooterLink[] = [
-      {
-        label: 'Termos de Uso',
-        href: '/privacy-terms#terms'
-      },
-      {
-        label: 'Políticas de Privacidade',
-        href: '/privacy-terms#privacy'
-      },
-      {
-        label: 'Servidor do Discord',
-        href: 'https://discord.com/invite/hFmHrpC8Sc'
-      },
-      {
-        label: 'Faça Parte do Projeto',
-        href: 'https://discord.com/invite/hFmHrpC8Sc'
-      }
-    ];
-
     return {
-      footerSocialLinks,
-      footerLinksMenu,
-      footerLinksDev,
-      footerLinksCompany
+      footerSocialLinks: Links.Footer.Social,
+      footerLinksMenu: Links.Footer.Menu,
+      footerLinksDev: Links.Footer.Dev,
+      footerLinksCompany: Links.Footer.Company
     };
   }
 };
@@ -109,64 +51,31 @@ export default {
           <div class="space-y-2">
             <h3 class="text-md font-semibold">Menu</h3>
             <div class="flex flex-col gap-1">
-              <RouterLink
-                v-for="menuLink in footerLinksMenu"
-                :key="menuLink.label"
-                :to="menuLink.href"
-                class="hover:text-black/60 dark:hover:text-white/80 text-sm transition-colors"
-              >
-                {{ menuLink.label }}
-              </RouterLink>
+              <FooterItem
+                v-for="footerLinkMenu in footerLinksMenu"
+                :key="footerLinkMenu.href"
+                :data="footerLinkMenu"
+              />
             </div>
           </div>
           <div class="space-y-2">
             <h3 class="text-md font-semibold">Desenvolvedores</h3>
             <div class="flex flex-col gap-1">
-              <RouterLink
-                v-for="devLink in footerLinksDev.filter((link) => !link.href.startsWith('https'))"
-                :key="devLink.label"
-                :to="devLink.href"
-                class="hover:text-black/60 dark:hover:text-white/80 text-sm transition-colors"
-              >
-                {{ devLink.label }}
-              </RouterLink>
-              <a
-                v-for="externalDevLink in footerLinksDev.filter((link) =>
-                  link.href.startsWith('https')
-                )"
-                :key="externalDevLink.href"
-                :href="externalDevLink.href"
-                target="_blank"
-                class="hover:text-black/60 dark:hover:text-white/80 text-sm transition-colors"
-              >
-                {{ externalDevLink.label }}
-              </a>
+              <FooterItem
+                v-for="footerLinkDev in footerLinksDev"
+                :key="footerLinkDev.href"
+                :data="footerLinkDev"
+              />
             </div>
           </div>
           <div class="space-y-2">
             <h3 class="text-md font-semibold">Empresa</h3>
             <div class="flex flex-col gap-1">
-              <RouterLink
-                v-for="companyLink in footerLinksCompany.filter(
-                  (link) => !link.href.startsWith('https')
-                )"
-                :key="companyLink.label"
-                :to="companyLink.href"
-                class="hover:text-black/60 dark:hover:text-white/80 text-sm transition-colors"
-              >
-                {{ companyLink.label }}
-              </RouterLink>
-              <a
-                v-for="externalCompanyLink in footerLinksCompany.filter((link) =>
-                  link.href.startsWith('https')
-                )"
-                :key="externalCompanyLink.href"
-                :href="externalCompanyLink.href"
-                target="_blank"
-                class="hover:text-black/60 dark:hover:text-white/80 text-sm transition-colors"
-              >
-                {{ externalCompanyLink.label }}
-              </a>
+              <FooterItem
+                v-for="footerLinkCompany in footerLinksCompany"
+                :key="footerLinkCompany.href"
+                :data="footerLinkCompany"
+              />
             </div>
           </div>
         </div>
